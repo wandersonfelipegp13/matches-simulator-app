@@ -5,6 +5,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -14,6 +16,7 @@ import br.edu.ifgoiano.simulator.R;
 import br.edu.ifgoiano.simulator.data.MatchesAPI;
 import br.edu.ifgoiano.simulator.databinding.ActivityMainBinding;
 import br.edu.ifgoiano.simulator.domain.Match;
+import br.edu.ifgoiano.simulator.ui.adapter.MatchesAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MatchesAPI matchesApi;
+    private RecyclerView.Adapter matchesAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,12 +52,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupMatchesList() {
+        binding.rvMatches.setHasFixedSize(true);
+        binding.rvMatches.setLayoutManager(new LinearLayoutManager(this));
         matchesApi.getMatches().enqueue(new Callback<List<Match>>() {
             @Override
             public void onResponse(Call<List<Match>> call, Response<List<Match>> response) {
                 if(response.isSuccessful()) {
                     List<Match> matches = response.body();
-                    Log.i("SIMULATOR", "OK: Matches size = " + matches.size());
+                    matchesAdapter = new MatchesAdapter(matches);
+                    binding.rvMatches.setAdapter(matchesAdapter);
                 } else {
                     showErrorMessage();
                 }
