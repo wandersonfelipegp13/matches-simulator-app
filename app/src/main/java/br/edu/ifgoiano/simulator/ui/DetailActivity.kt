@@ -1,4 +1,4 @@
-package br.edu.ifgoiano.simulator
+package br.edu.ifgoiano.simulator.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
