@@ -1,7 +1,10 @@
 package br.edu.ifgoiano.simulator.domain
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Match (
     @SerializedName("descricao")
     val description: String,
@@ -14,4 +17,4 @@ data class Match (
 
     @SerializedName("visitante")
     val awayTeam: Team
-)
+) : Parcelable
